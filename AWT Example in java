@@ -1,10 +1,10 @@
 import java.awt.*;  
 import java.awt.event.*;  
 
-public class EnhancedAWTExample1 {  
+public class EnhancedAWTExample {  
     public static void main(String[] args) {  
         // Creating a Frame
-        Frame frame = new Frame("Enhanced AWT Example");
+        Frame frame = new Frame("Basic AWT for addition");
 
         // Creating Labels
         Label nameLabel = new Label("Enter your name:");
@@ -13,38 +13,67 @@ public class EnhancedAWTExample1 {
         Label regNumberLabel = new Label("Enter your register number:");
         regNumberLabel.setBounds(50, 100, 150, 30);
 
-        // Creating a TextField for name
+        Label num1Label = new Label("Enter first number:");
+        num1Label.setBounds(50, 150, 150, 30);
+
+        Label num2Label = new Label("Enter second number:");
+        num2Label.setBounds(50, 200, 150, 30);
+
+        // Creating TextFields for inputs
         TextField nameField = new TextField();
-        nameField.setBounds(180, 50, 150, 30);
+        nameField.setBounds(200, 50, 150, 30);
 
-        // Creating a TextField for register number
         TextField regNumberField = new TextField();
-        regNumberField.setBounds(180, 100, 150, 30);
+        regNumberField.setBounds(200, 100, 150, 30);
 
-        // Creating a Dropdown (Choice) for prefix
-        Choice prefixChoice = new Choice();
-        prefixChoice.add("Mr.");
-        prefixChoice.add("Ms.");
-        prefixChoice.add("Dr.");
-        prefixChoice.add("Prof.");
-        prefixChoice.setBounds(50, 150, 80, 30);
+        TextField num1Field = new TextField();
+        num1Field.setBounds(200, 150, 150, 30);
+
+        TextField num2Field = new TextField();
+        num2Field.setBounds(200, 200, 150, 30);
 
         // Creating a Submit Button
-        Button submitButton = new Button("Submit");
-        submitButton.setBounds(50, 200, 80, 30);
+        Button submitButton = new Button("Print");
+        submitButton.setBounds(50, 250, 80, 30);
 
         // Creating a Reset Button
         Button resetButton = new Button("Reset");
-        resetButton.setBounds(150, 200, 80, 30);
+        resetButton.setBounds(150, 250, 80, 30);
+
+        // Creating a Canvas for displaying the results
+        Canvas displayCanvas = new Canvas() {
+            public void paint(Graphics g) {
+                // Drawing the rectangle
+                g.drawRect(50, 300, 300, 120);
+            }
+        };
+        displayCanvas.setBounds(50, 300, 300, 120);
 
         // Adding an event listener for the Submit button
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
                 String regNumber = regNumberField.getText();
-                String prefix = prefixChoice.getSelectedItem();
-                nameLabel.setText("Hello, " + prefix + " " + name + "!");
-                regNumberLabel.setText("Register Number: " + regNumber);
+                String num1Text = num1Field.getText();
+                String num2Text = num2Field.getText();
+
+                // Handling number input
+                int num1 = Integer.parseInt(num1Text);
+                int num2 = Integer.parseInt(num2Text);
+                int sum = num1 + num2;
+
+                Graphics g = displayCanvas.getGraphics();
+                
+                // Clearing the previous text
+                g.clearRect(1, 1, displayCanvas.getWidth()-2, displayCanvas.getHeight()-2);
+                
+                // Redrawing the rectangle
+                g.drawRect(0, 0, 299, 119);
+                
+                // Displaying the name, register number, and sum inside the rectangle
+                g.drawString("Hello, " + name + "!", 20, 40);
+                g.drawString("Register Number: " + regNumber, 20, 70);
+                g.drawString("Sum of " + num1 + " and " + num2 + " is: " + sum, 20, 100);
             }
         });
 
@@ -53,8 +82,15 @@ public class EnhancedAWTExample1 {
             public void actionPerformed(ActionEvent e) {
                 nameField.setText("");
                 regNumberField.setText("");
-                nameLabel.setText("Enter your name:");
-                regNumberLabel.setText("Enter your register number:");
+                num1Field.setText("");
+                num2Field.setText("");
+                
+                // Clear the rectangle content
+                Graphics g = displayCanvas.getGraphics();
+                g.clearRect(1, 1, displayCanvas.getWidth()-2, displayCanvas.getHeight()-2);
+                
+                // Redrawing the rectangle
+                g.drawRect(0, 0, 299, 119);
             }
         });
 
@@ -63,12 +99,16 @@ public class EnhancedAWTExample1 {
         frame.add(nameField);
         frame.add(regNumberLabel);
         frame.add(regNumberField);
-        frame.add(prefixChoice);
+        frame.add(num1Label);
+        frame.add(num1Field);
+        frame.add(num2Label);
+        frame.add(num2Field);
         frame.add(submitButton);
         frame.add(resetButton);
+        frame.add(displayCanvas);
 
         // Setting Frame size and layout
-        frame.setSize(400, 300);
+        frame.setSize(400, 500);
         frame.setLayout(null);
         frame.setVisible(true);
 
@@ -80,3 +120,4 @@ public class EnhancedAWTExample1 {
         });
     }  
 }
+
